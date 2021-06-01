@@ -1,3 +1,5 @@
+import { assertThat, everyItem, greaterThanOrEqualTo, hasProperty } from 'hamjest';
+
 import { Employee, EmployeeReport } from './employeeReport';
 
 describe('Employee report', () => {
@@ -24,8 +26,9 @@ describe('Employee report', () => {
 
     // then
     expect(result).toHaveLength(2);
-    expect(result.find(e => isSameName(e, 'Sepp'))).toBeTruthy();
-    expect(result.find(e => isSameName(e, 'Mike'))).toBeTruthy();
+    assertThat(result, everyItem(hasProperty('age', greaterThanOrEqualTo(18))));
+    expect(result.find(employee => isSameName(employee, 'Sepp'))).toBeTruthy();
+    expect(result.find(employee => isSameName(employee, 'Mike'))).toBeTruthy();
   });
 
   it('lists the employees sorted by their name in a descending order', async() => {
@@ -43,8 +46,9 @@ describe('Employee report', () => {
 
     // then
     result.forEach(employee => {
-      const match = employee.name.match(/[A-Z]+/)!;
-      expect(match[0]).toHaveLength(employee.name.length);
+      const upperCaseMatch = employee.name.match(/[A-Z]+/);
+
+      expect((upperCaseMatch!)[0]).toHaveLength(employee.name.length);
     });
   });
 });
