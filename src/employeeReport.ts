@@ -4,17 +4,17 @@ export interface Employee {
 }
 
 export class EmployeeReport {
-  constructor(private readonly employees: Employee[]) {
+  private MIN_AGE_TO_WORK_ON_SUNDAYS = 18;
 
-  }
+  constructor(private readonly employees: Employee[]) {}
 
   public listAllowedToWorkOnSundays() {
     return this.employees
-      .filter(e => e.age >= 18)
+      .filter(employee => employee.age >= this.MIN_AGE_TO_WORK_ON_SUNDAYS)
       .sort((a, b) => a.name < b.name ? 1 : -1)
-      .map(e => {
-        e.name = e.name.toUpperCase();
-        return e;
-      });
+      .map(employee => ({
+        ...employee,
+        name: employee.name.toUpperCase(),
+      }));
   }
 }
